@@ -1,6 +1,4 @@
 #include "Country.hpp"
-#include "Unit.hpp"
-#include "Grid.hpp"
 
 Country::Country() {
 	name = new char[2];

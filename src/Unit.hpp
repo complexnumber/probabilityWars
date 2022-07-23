@@ -4,6 +4,7 @@
 #define Unit_hpp
 
 #include "ofMain.h"
+#include "Country.hpp"
 #include "GameSettings.hpp"
 
 class Country;

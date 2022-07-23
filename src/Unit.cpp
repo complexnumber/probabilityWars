@@ -1,5 +1,4 @@
 #include "Unit.hpp"
-#include "Country.hpp"
 
 Unit::Unit() {
 	owner = NULL;

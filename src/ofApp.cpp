@@ -2,10 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofBackground(225, 193, 110);
     ofSetWindowTitle("Probability Wars");
     ofSetFullscreen(false);
-    //ofEnableSmoothing();
 
     game_settings = new GameSettings();
     if (game_settings->setup(13, 13, 9)) {
@@ -14,6 +12,7 @@ void ofApp::setup(){
     else {
         game_state = gameState::END;
     }
+    game_settings->setBackground(ofColor(225, 193, 110));
     game_settings->setFont("Arial.ttf", 20);
     game_settings->setWorldGraphics(0.85);
     game_settings->setCoin(20, 2, 6);
@@ -21,11 +20,8 @@ void ofApp::setup(){
     game_settings->setCountriesRandom();
 
     coin = new Coin();
-    coin->setup(game_settings);
     world = new World();
-    world->setup(game_settings);
     game = new GameFlow();
-    game->setup(game_settings, world, coin);
 }
 
 //--------------------------------------------------------------
@@ -35,7 +31,6 @@ void ofApp::update(){
             break;
         }
         case gameState::GAME: {
-            world->update();
             game->update();
             coin->update();
             break;
@@ -59,9 +54,8 @@ void ofApp::draw(){
             break;
         }
         case gameState::GAME: {
-            world->draw();
-            coin->draw();
             game->draw();
+            coin->draw();
             break;
         }
         case gameState::END: {
@@ -86,7 +80,9 @@ void ofApp::keyPressed(int key){
         case ' ':
             switch (game_state) {
                 case gameState::START: {
-                    world->setupCountries();
+                    coin->setup(game_settings);
+                    world->setup(game_settings);
+                    game->setup(game_settings, world, coin);
                     game_state = gameState::GAME;
                     break;
                 }

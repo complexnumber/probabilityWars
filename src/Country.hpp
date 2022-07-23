@@ -6,10 +6,10 @@
 #include "ofMain.h"
 #include "GameSettings.hpp"
 #include "GeneralBuffer.hpp"
+#include "Grid.hpp"
+#include "Unit.hpp"
 
 class Grid;
-
-class Unit;
 
 class Country {
 private:

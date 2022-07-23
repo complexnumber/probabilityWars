@@ -6,7 +6,11 @@
 #include "ofMain.h"
 #include "GameSettings.hpp"
 #include "GeneralBuffer.hpp"
+#include "GeneralBuffer.cpp"
+#include "Country.hpp"
 #include "Unit.hpp"
+
+class Unit;
 
 class Country;
 

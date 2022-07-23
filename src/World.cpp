@@ -9,11 +9,13 @@ World::World() {
 void World::setup(GameSettings* set_game_settings) {
 	game_settings = set_game_settings;
 	world_grid = new Grid();
+	world_grid->setup(game_settings);
+	game_settings->setCountriesRandom();
 	setupCountries();
 }
 
-void World::update() {
-	world_grid->updateSelectableUnits(countries[0]);
+void World::update(Country* country) {
+	world_grid->updateSelectableUnits(country);
 }
 
 void World::draw() {
@@ -21,11 +23,10 @@ void World::draw() {
 }
 
 void World::setupCountries() {
-	world_grid->setup(game_settings);
-	game_settings->setCountriesRandom();
 	// Establish countries on lands
-	countries = new Country * [game_settings->getNumberCountries()]();
-	for (size_t id = 0; id < game_settings->getNumberCountries(); id++)
+	size_t num_countries = game_settings->getNumberCountries();
+	countries = new Country * [num_countries]();
+	for (size_t id = 0; id < num_countries; id++)
 	{
 		countries[id] = new Country();
 		countries[id]->setup(game_settings, id);
@@ -43,14 +44,14 @@ void World::resetWorld() {
 	world_grid->reset();
 }
 
-Country* World::getCountry(size_t order) {
-	return countries[order];
-}
-
-size_t World::getNumberCountry() {
-	return game_settings->getNumberCountries();
+GameSettings* World::settings() {
+	return game_settings;
 }
 
 Grid* World::getGrid() {
 	return world_grid;
+}
+
+Country*& World::operator[](unsigned int index) {
+	return countries[index];
 }

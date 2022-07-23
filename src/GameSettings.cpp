@@ -174,6 +174,10 @@ float GameSettings::getTourTime() {
 	return tour_time;
 }
 
+void GameSettings::setBackground(ofColor color) {
+	ofBackground(color);
+}
+
 ofTrueTypeFont GameSettings::getFont() {
 	return font;
 }

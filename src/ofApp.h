@@ -4,7 +4,6 @@
 #include "GameSettings.hpp"
 #include "GameFlow.hpp"
 #include "World.hpp"
-#include "Country.hpp"
 #include "Coin.hpp"
 
 class ofApp : public ofBaseApp{
@@ -32,7 +31,6 @@ class ofApp : public ofBaseApp{
 
 		GameFlow* game;
 		GameSettings* game_settings;
-		Country** countries;
 		World* world;
 		Coin* coin;
 };

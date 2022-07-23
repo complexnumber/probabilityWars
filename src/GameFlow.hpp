@@ -4,7 +4,6 @@
 #define GameFlow_hpp
 
 #include "ofMain.h"
-#include "GeneralBuffer.hpp"
 #include "World.hpp"
 #include "Coin.hpp"
 #include "Country.hpp"
@@ -37,7 +36,6 @@ public:
 	void draw();
 
 	void setAttackedCountry(Country* set_attacked_country);
-	void changeActiveCountry(Country* change_active_country);
 
 	void conquerLands();
 

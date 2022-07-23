@@ -1,7 +1,4 @@
 #include "Grid.hpp"
-#include "Country.hpp"
-#include "GeneralBuffer.hpp"
-#include "GeneralBuffer.cpp"
 
 Grid::Grid() {
 	game_settings = NULL;
@@ -17,7 +14,6 @@ Grid::Grid() {
 }
 
 void Grid::reducePossibleCountryCenterUnits(Unit* unit) {
-	size_t num_row = game_settings->getNumberRow();
 	size_t num_col = game_settings->getNumberColumn();
 	
 	possible_country_center_units.reduceUniquely(units[unit->getID()]);
@@ -101,6 +97,11 @@ void Grid::reset() {
 
 	selectable_units.clear();
 	selected_units.clear();
+	for (size_t id = 0; id < game_settings->num_units; id++)
+	{
+		delete units[id];
+	}
+	delete[]units;
 }
 
 Unit** Grid::getUnits() {

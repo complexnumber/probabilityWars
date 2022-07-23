@@ -67,6 +67,8 @@ public:
 	void setTourTime(float set_tour_time);
 	float getTourTime();
 
+	void setBackground(ofColor color);
+
 	ofTrueTypeFont getFont();
 	void setFont(string font_name, size_t set_font_size);
 

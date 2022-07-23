@@ -29,7 +29,7 @@ void GameFlow::setup(GameSettings* game_settings, World* set_world, Coin* set_co
 	tour_number = 1;
 	end_tour = false;
 
-	active_country = world->getCountry(0);
+	active_country = (*world)[0];
 	attacked_country = NULL;
 
 	attack = false;
@@ -45,6 +45,7 @@ void GameFlow::setup(GameSettings* game_settings, World* set_world, Coin* set_co
 }
 
 void GameFlow::update() {
+	world->update(active_country);
 	if (attack && !end_tour && coin->getCoinState() != coinState::ROTATING) {
 		coin->tossCoin();
 		end_tour = true;
@@ -56,6 +57,7 @@ void GameFlow::update() {
 }
 
 void GameFlow::draw() {
+	world->draw();
 	if (attack) {
 		ofSetColor(attack_button_color);
 	}
@@ -84,21 +86,19 @@ void GameFlow::setAttackedCountry(Country* set_attacked_country) {
 	attacked_country = set_attacked_country;
 }
 
-void GameFlow::changeActiveCountry(Country* change_active_country) {
-	active_country = change_active_country;
-}
-
 void GameFlow::conquerLands() {
 
 	if (guess != coinState::IDLE && guess == coin->getCoinState()) {
 		GeneralBuffer<Unit*>* selected_units = world->getGrid()->getSelectedUnits();
 		for (size_t i = 0; i < selected_units->length(); i++)
 		{
-			for (size_t j = 0; j < world->getNumberCountry() - 1; j++)
+			for (size_t j = 0; j < world->settings()->getNumberCountries(); j++)
 			{
-				world->getCountry(j + 1)->deleteUnit((*selected_units)[i]);
+				if ((*world)[j] != active_country) {
+					(*world)[j]->deleteUnit((*selected_units)[i]);
+				}
 			}
-			world->getCountry(0)->addUnit((*selected_units)[i]);
+			active_country->addUnit((*selected_units)[i]);
 		}
 	}
 	else if (guess != coinState::IDLE && guess != coin->getCoinState()) {
@@ -139,7 +139,7 @@ void GameFlow::nextTour() {
 	guess = coinState::IDLE;
 	tour_number++;
 	world->getGrid()->clearSelectedLands();
-	changeActiveCountry(world->getCountry(tour_number % world->getNumberCountry()));
+	active_country = (*world)[tour_number % world->settings()->getNumberCountries()];
 }
 
 GameFlow::~GameFlow() {
