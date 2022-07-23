@@ -23,8 +23,10 @@ public:
 	void resetWorld();
 
 	GameSettings* settings();
-	Grid* getGrid();
+	Grid* grid();
 	Country*& operator[](unsigned int index);
+
+	void mousePressed(int x, int y, int mouse_button);
 };
 
 #endif /* World.hpp */

@@ -41,7 +41,7 @@ public:
 
 	void setGuess(coinState set_guess);
 
-	void checkPress(int x, int y);
+	void mousePressed(int x, int y, int mouse_button);
 	void nextTour();
 	~GameFlow();
 };

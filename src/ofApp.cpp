@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    mouse_pressed = false;
     ofSetWindowTitle("Probability Wars");
     ofSetFullscreen(false);
 
@@ -32,7 +33,10 @@ void ofApp::update(){
         }
         case gameState::GAME: {
             game->update();
-            coin->update();
+            if (mouse_pressed) {
+                game->mousePressed(mouse_pressed_x, mouse_pressed_y, mouse_pressed_button);
+                mouse_pressed = false;
+            }
             break;
         }
         case gameState::END: {
@@ -55,7 +59,6 @@ void ofApp::draw(){
         }
         case gameState::GAME: {
             game->draw();
-            coin->draw();
             break;
         }
         case gameState::END: {
@@ -149,11 +152,12 @@ void ofApp::mousePressed(int x, int y, int button){
             break;
         }
         case gameState::GAME: {
+            mouse_pressed_button = button;
+            mouse_pressed = true;
+            mouse_pressed_x = x;
+            mouse_pressed_y = y;
             switch (button) {
                 case 0: {
-                    world->getGrid()->updateSelectedUnits(x, y);
-                    coin->checkPress(x, y);
-                    game->checkPress(x, y);
                     break;
                 }
                 case 1: {

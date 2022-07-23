@@ -33,4 +33,7 @@ class ofApp : public ofBaseApp{
 		GameSettings* game_settings;
 		World* world;
 		Coin* coin;
+
+		bool mouse_pressed;
+		int mouse_pressed_button, mouse_pressed_x, mouse_pressed_y;
 };

@@ -83,7 +83,7 @@ void GameSettings::setCountryColorsRandom() {
 	ofColor color = ofColor();
 	for (size_t i = 0; i < num_countries; i++)
 	{
-		color.setHsb(ofRandom(255), 200, 200);
+		color.setHsb(ofRandom(64, 192), 255, 255);
 		country_colors[i] = color;
 	}
 }

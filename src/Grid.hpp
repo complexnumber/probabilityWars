@@ -28,6 +28,8 @@ private:
 	GeneralBuffer<Unit*> selected_units;
 
 	void reducePossibleCountryCenterUnits(Unit* unit);
+
+
 public:
 	Grid();
 

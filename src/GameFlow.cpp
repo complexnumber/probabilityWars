@@ -45,6 +45,7 @@ void GameFlow::setup(GameSettings* game_settings, World* set_world, Coin* set_co
 }
 
 void GameFlow::update() {
+	coin->update();
 	world->update(active_country);
 	if (attack && !end_tour && coin->getCoinState() != coinState::ROTATING) {
 		coin->tossCoin();
@@ -57,6 +58,7 @@ void GameFlow::update() {
 }
 
 void GameFlow::draw() {
+	coin->draw();
 	world->draw();
 	if (attack) {
 		ofSetColor(attack_button_color);
@@ -89,7 +91,7 @@ void GameFlow::setAttackedCountry(Country* set_attacked_country) {
 void GameFlow::conquerLands() {
 
 	if (guess != coinState::IDLE && guess == coin->getCoinState()) {
-		GeneralBuffer<Unit*>* selected_units = world->getGrid()->getSelectedUnits();
+		GeneralBuffer<Unit*>* selected_units = world->grid()->getSelectedUnits();
 		for (size_t i = 0; i < selected_units->length(); i++)
 		{
 			for (size_t j = 0; j < world->settings()->getNumberCountries(); j++)
@@ -110,26 +112,35 @@ void GameFlow::setGuess(coinState set_guess) {
 	guess = set_guess;
 }
 
-void GameFlow::checkPress(int x, int y) {
-	if (!attack) {
-		if (x > attack_button_position.x && x < attack_button_position.x + attack_button_size.x
-			&& y > attack_button_position.y && y < attack_button_position.y + attack_button_size.y
-			&& world->getGrid()->getSelectedUnits()->length() && guess != coinState::IDLE) {
-			attack = true;
-		}
-		if (x > attack_button_position.x && x < attack_button_position.x + attack_button_size.x
-			&& y > attack_button_position.y + attack_button_size.y && y < attack_button_position.y + 2 * attack_button_size.y) {
-			if (guess == coinState::HEAD || guess == coinState::IDLE) {
-				guess = coinState::TAILS;
+void GameFlow::mousePressed(int x, int y, int mouse_button) {
+	coin->mousePressed(x, y, mouse_button);
+	world->mousePressed(x, y, mouse_button);
+	switch (mouse_button)
+	{
+	case 0:
+		if (!attack) {
+			if (x > attack_button_position.x && x < attack_button_position.x + attack_button_size.x
+				&& y > attack_button_position.y && y < attack_button_position.y + attack_button_size.y
+				&& world->grid()->getSelectedUnits()->length() && guess != coinState::IDLE) {
+				attack = true;
 			}
-			else if (guess == coinState::TAILS || guess == coinState::IDLE) {
-				guess = coinState::HEAD;
+			if (x > attack_button_position.x && x < attack_button_position.x + attack_button_size.x
+				&& y > attack_button_position.y + attack_button_size.y && y < attack_button_position.y + 2 * attack_button_size.y) {
+				if (guess == coinState::HEAD || guess == coinState::IDLE) {
+					guess = coinState::TAILS;
+				}
+				else if (guess == coinState::TAILS || guess == coinState::IDLE) {
+					guess = coinState::HEAD;
+				}
+			}
+			if (x > attack_button_position.x && x < attack_button_position.x + attack_button_size.x
+				&& y > attack_button_position.y + 2 * attack_button_size.y && y < attack_button_position.y + 3 * attack_button_size.y) {
+				world->grid()->clearSelectedLands();
 			}
 		}
-		if (x > attack_button_position.x && x < attack_button_position.x + attack_button_size.x
-			&& y > attack_button_position.y + 2 * attack_button_size.y && y < attack_button_position.y + 3 * attack_button_size.y) {
-			world->getGrid()->clearSelectedLands();
-		}
+		break;
+	default:
+		break;
 	}
 }
 
@@ -138,7 +149,7 @@ void GameFlow::nextTour() {
 	end_tour = false;
 	guess = coinState::IDLE;
 	tour_number++;
-	world->getGrid()->clearSelectedLands();
+	world->grid()->clearSelectedLands();
 	active_country = (*world)[tour_number % world->settings()->getNumberCountries()];
 }
 

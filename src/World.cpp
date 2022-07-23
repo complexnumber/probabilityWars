@@ -48,10 +48,21 @@ GameSettings* World::settings() {
 	return game_settings;
 }
 
-Grid* World::getGrid() {
+Grid* World::grid() {
 	return world_grid;
 }
 
 Country*& World::operator[](unsigned int index) {
 	return countries[index];
+}
+
+void World::mousePressed(int x, int y, int mouse_button) {
+	switch (mouse_button)
+	{
+	case 0:
+		world_grid->updateSelectedUnits(x, y);
+		break;
+	default:
+		break;
+	}
 }
