@@ -4,6 +4,7 @@
 #define GameFlow_hpp
 
 #include "ofMain.h"
+#include "GeneralBuffer.hpp"
 #include "World.hpp"
 #include "Coin.hpp"
 #include "Country.hpp"

@@ -180,6 +180,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\Coin.cpp" />
@@ -187,17 +188,18 @@
     <ClCompile Include="src\GameFlow.cpp" />
     <ClCompile Include="src\GameSettings.cpp" />
     <ClCompile Include="src\GeneralBuffer.cpp" />
-    <ClCompile Include="src\Land.cpp" />
+    <ClCompile Include="src\Unit.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Grid.hpp" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Coin.hpp" />
     <ClInclude Include="src\Country.hpp" />
     <ClInclude Include="src\GameFlow.hpp" />
     <ClInclude Include="src\GameSettings.hpp" />
     <ClInclude Include="src\GeneralBuffer.hpp" />
-    <ClInclude Include="src\Land.hpp" />
+    <ClInclude Include="src\Unit.hpp" />
     <ClInclude Include="src\World.hpp" />
   </ItemGroup>
   <ItemGroup>

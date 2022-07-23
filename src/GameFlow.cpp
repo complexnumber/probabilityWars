@@ -91,10 +91,14 @@ void GameFlow::changeActiveCountry(Country* change_active_country) {
 void GameFlow::conquerLands() {
 
 	if (guess != coinState::IDLE && guess == coin->getCoinState()) {
-		size_t* selected_land_ids = world->getSelectedLandIDs();
-		for (size_t i = 0; i < world->getNumberSelectedLand(); i++)
+		GeneralBuffer<Unit*>* selected_units = world->getGrid()->getSelectedUnits();
+		for (size_t i = 0; i < selected_units->length(); i++)
 		{
-			world->getLand(selected_land_ids[i])->setOwner(active_country);
+			for (size_t j = 0; j < world->getNumberCountry() - 1; j++)
+			{
+				world->getCountry(j + 1)->deleteUnit((*selected_units)[i]);
+			}
+			world->getCountry(0)->addUnit((*selected_units)[i]);
 		}
 	}
 	else if (guess != coinState::IDLE && guess != coin->getCoinState()) {
@@ -110,9 +114,8 @@ void GameFlow::checkPress(int x, int y) {
 	if (!attack) {
 		if (x > attack_button_position.x && x < attack_button_position.x + attack_button_size.x
 			&& y > attack_button_position.y && y < attack_button_position.y + attack_button_size.y
-			&& world->getNumberSelectedLand() && guess != coinState::IDLE) {
+			&& world->getGrid()->getSelectedUnits()->length() && guess != coinState::IDLE) {
 			attack = true;
-			setAttackedCountry(world->getLand(world->getSelectedLandIDs()[0])->getOwner());
 		}
 		if (x > attack_button_position.x && x < attack_button_position.x + attack_button_size.x
 			&& y > attack_button_position.y + attack_button_size.y && y < attack_button_position.y + 2 * attack_button_size.y) {
@@ -125,7 +128,7 @@ void GameFlow::checkPress(int x, int y) {
 		}
 		if (x > attack_button_position.x && x < attack_button_position.x + attack_button_size.x
 			&& y > attack_button_position.y + 2 * attack_button_size.y && y < attack_button_position.y + 3 * attack_button_size.y) {
-			world->deselectLands();
+			world->getGrid()->clearSelectedLands();
 		}
 	}
 }
@@ -135,7 +138,7 @@ void GameFlow::nextTour() {
 	end_tour = false;
 	guess = coinState::IDLE;
 	tour_number++;
-	world->deselectLands();
+	world->getGrid()->clearSelectedLands();
 	changeActiveCountry(world->getCountry(tour_number % world->getNumberCountry()));
 }
 

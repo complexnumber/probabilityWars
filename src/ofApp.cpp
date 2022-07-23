@@ -8,7 +8,7 @@ void ofApp::setup(){
     //ofEnableSmoothing();
 
     game_settings = new GameSettings();
-    if (game_settings->setup(9, 9, 2)) {
+    if (game_settings->setup(13, 13, 9)) {
         game_state = gameState::START;
     }
     else {
@@ -18,21 +18,12 @@ void ofApp::setup(){
     game_settings->setWorldGraphics(0.85);
     game_settings->setCoin(20, 2, 6);
     game_settings->setTourTime(20);
+    game_settings->setCountriesRandom();
+
     coin = new Coin();
     coin->setup(game_settings);
-    countries = new Country *[game_settings->getNumberCountries() + 1];
-    string country_names[10] = { "Cakil", "Turkey", "Germany", "Josh", "Paul", "Italy", "USA", "Russia", "England", "France"};
-    for (size_t i = 0; i < game_settings->getNumberCountries() + 1; i++)
-    {
-        countries[i] = new Country;
-        if (i != game_settings->getNumberCountries()) {
-            ofColor color = ofColor();
-            color.setHsb(ofRandom(255), 200, 200);
-            countries[i]->setup(country_names[int(ofRandom(10))], color);
-        }
-    }
     world = new World();
-    world->setup(game_settings, countries);
+    world->setup(game_settings);
     game = new GameFlow();
     game->setup(game_settings, world, coin);
 }
@@ -44,6 +35,7 @@ void ofApp::update(){
             break;
         }
         case gameState::GAME: {
+            world->update();
             game->update();
             coin->update();
             break;
@@ -94,12 +86,13 @@ void ofApp::keyPressed(int key){
         case ' ':
             switch (game_state) {
                 case gameState::START: {
+                    world->setupCountries();
                     game_state = gameState::GAME;
                     break;
                 }
                 case gameState::GAME: {
-                    game_state = gameState::START;
                     world->resetWorld();
+                    game_state = gameState::START;
                     break;
                 }
                 case gameState::END: {
@@ -162,7 +155,7 @@ void ofApp::mousePressed(int x, int y, int button){
         case gameState::GAME: {
             switch (button) {
                 case 0: {
-                    world->checkPress(x, y);
+                    world->getGrid()->updateSelectedUnits(x, y);
                     coin->checkPress(x, y);
                     game->checkPress(x, y);
                     break;

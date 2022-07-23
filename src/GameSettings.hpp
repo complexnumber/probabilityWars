@@ -11,6 +11,9 @@ private:
 	size_t num_col;
 	size_t num_countries;
 
+	char** country_names;
+	ofColor* country_colors;
+
 	float border_scaling;
 	float square_length;
 
@@ -23,6 +26,7 @@ private:
 	size_t font_size;
 	ofTrueTypeFont font;
 public:
+	size_t num_units;
 	size_t max_num_countries;
 	GameSettings();
 
@@ -30,6 +34,21 @@ public:
 	bool setup(size_t set_num_row, size_t set_num_col, size_t set_num_countries);
 	void update();
 	void draw();
+
+	void setCountryNames(char** set_country_names);
+	void setCountryNamesRandom();
+	void setCountryColors(ofColor* set_country_colors);
+	void setCountryColorsRandom();
+	void setCountries(char** set_country_names, ofColor* set_country_colors);
+	void setCountriesRandom();
+
+	void setCountryName(char* set_country_name, size_t country_id);
+	void setCountryColor(ofColor set_country_color, size_t country_id);
+	void setCountry(char* set_country_name, ofColor set_country_color, size_t country_id);
+
+	char** getCountryNames();
+
+	ofColor* getCountryColors();
 
 	size_t getNumberColumn();
 	size_t getNumberRow();
