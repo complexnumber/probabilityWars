@@ -19,7 +19,6 @@ void Unit::setup(size_t set_id, GameSettings* game_settings) {
 	owner = NULL;
 
 	size_t num_col = game_settings->getNumberColumn();
-	size_t num_row = game_settings->getNumberRow();
 	id = set_id;
 	x = id % num_col;
 	y = id / num_col;
@@ -31,7 +30,7 @@ void Unit::setup(size_t set_id, GameSettings* game_settings) {
 		up_id = id;
 	}
 
-	if (y < num_row - 1) {
+	if (y < game_settings->getNumberRow() - 1) {
 		down_id = id + num_col;
 	}
 	else {

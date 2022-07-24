@@ -1,6 +1,8 @@
 #include "ofMain.h"
 #include "ofApp.h"
 
+#define BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE
+
 //========================================================================
 int main( ){
 	ofSetupOpenGL(1024,768,OF_WINDOW);			// <-------- setup the GL context

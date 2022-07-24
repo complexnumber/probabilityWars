@@ -15,8 +15,8 @@ GameFlow::GameFlow() {
 	attack_button_position = ofPoint(0);
 	attack_button_size = ofPoint(100, 50);
 
-	current_tour_time = 0;
-	tour_time = 20;
+	current_tour_time = 0; // not implemented
+	tour_time = 20; // not implemented
 
 	guess = coinState::IDLE;
 	guess_button_color = ofColor(255, 255, 255);
@@ -30,23 +30,24 @@ void GameFlow::setup(GameSettings* game_settings, World* set_world, Coin* set_co
 	end_tour = false;
 
 	active_country = (*world)[0];
-	attacked_country = NULL;
+	attacked_country = NULL; // not implemented
 
 	attack = false;
 	attack_button_color = ofColor(0, 0, 255);
 	attack_button_position = ofPoint(game_settings->getSquareLength() * game_settings->getNumberColumn(), ofGetWindowHeight() * 0.75);
 	attack_button_size = ofPoint(100, 50);
 
-	current_tour_time = 0;
-	tour_time = game_settings->getTourTime();
+	current_tour_time = 0; // not implemented
+	tour_time = game_settings->getTourTime(); // not implemented
 
 	guess = coinState::IDLE;
 	guess_button_color = ofColor(255, 255, 255);
+
+	world->updateUnits(active_country);
 }
 
 void GameFlow::update() {
 	coin->update();
-	world->update(active_country);
 	if (attack && !end_tour && coin->getCoinState() != coinState::ROTATING) {
 		coin->tossCoin();
 		end_tour = true;
@@ -54,6 +55,8 @@ void GameFlow::update() {
 	if (end_tour && coin->getCoinState() != coinState::ROTATING) {
 		conquerLands();
 		nextTour();
+		world->updateUnits(active_country);
+		end_tour = false;
 	}
 }
 
@@ -86,7 +89,7 @@ void GameFlow::draw() {
 
 void GameFlow::setAttackedCountry(Country* set_attacked_country) {
 	attacked_country = set_attacked_country;
-}
+} // not implemented
 
 void GameFlow::conquerLands() {
 
@@ -114,7 +117,7 @@ void GameFlow::setGuess(coinState set_guess) {
 
 void GameFlow::mousePressed(int x, int y, int mouse_button) {
 	coin->mousePressed(x, y, mouse_button);
-	world->mousePressed(x, y, mouse_button);
+	world->mousePressed(x, y, mouse_button, active_country);
 	switch (mouse_button)
 	{
 	case 0:
@@ -146,13 +149,8 @@ void GameFlow::mousePressed(int x, int y, int mouse_button) {
 
 void GameFlow::nextTour() {
 	attack = false;
-	end_tour = false;
 	guess = coinState::IDLE;
 	tour_number++;
 	world->grid()->clearSelectedLands();
 	active_country = (*world)[tour_number % world->settings()->getNumberCountries()];
-}
-
-GameFlow::~GameFlow() {
-
 }

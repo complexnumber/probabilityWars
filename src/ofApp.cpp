@@ -9,20 +9,20 @@ void ofApp::setup(){
     game_settings = new GameSettings();
     if (game_settings->setup(13, 13, 9)) {
         game_state = gameState::START;
+        game_settings->setBackground(ofColor(225, 193, 110));
+        game_settings->setFont("Arial.ttf", 20);
+        game_settings->setWorldGraphics(0.85);
+        game_settings->setCoin(20, 2, 6);
+        game_settings->setTourTime(20);
+        game_settings->setCountriesRandom();
+
+        coin = new Coin();
+        world = new World();
+        game = new GameFlow();
     }
     else {
         game_state = gameState::END;
     }
-    game_settings->setBackground(ofColor(225, 193, 110));
-    game_settings->setFont("Arial.ttf", 20);
-    game_settings->setWorldGraphics(0.85);
-    game_settings->setCoin(20, 2, 6);
-    game_settings->setTourTime(20);
-    game_settings->setCountriesRandom();
-
-    coin = new Coin();
-    world = new World();
-    game = new GameFlow();
 }
 
 //--------------------------------------------------------------

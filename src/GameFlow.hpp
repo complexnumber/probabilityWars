@@ -35,7 +35,7 @@ public:
 	void update();
 	void draw();
 
-	void setAttackedCountry(Country* set_attacked_country);
+	void setAttackedCountry(Country* set_attacked_country); // not implemented
 
 	void conquerLands();
 
@@ -43,7 +43,6 @@ public:
 
 	void mousePressed(int x, int y, int mouse_button);
 	void nextTour();
-	~GameFlow();
 };
 
 #endif /* GameFlow.hpp */

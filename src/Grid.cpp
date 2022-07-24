@@ -116,7 +116,7 @@ GeneralBuffer<Unit*>* Grid::getSelectedUnits() {
 	return &selected_units;
 }
 
-void Grid::updateSelectedUnits(int x, int y) {
+void Grid::updateSelectedUnits(int x, int y, Country* player_country) {
 	for (size_t id = 0; id < game_settings->num_units; id++)
 	{
 		if (x > units[id]->getPosition().x && x < units[id]->getPosition().x + game_settings->getSquareLength()
@@ -124,12 +124,16 @@ void Grid::updateSelectedUnits(int x, int y) {
 			&& selectable_units.checkItem(units[id])) {
 			if (!selected_units.insertItemUniquely(units[id])) {
 				selected_units.reduceUniquely(units[id]);
+				selectable_units.clear();
+				updateBaseSelectableUnits(player_country);
 			}
+			updateOutsideSelectableUnits();
+			break;
 		}
 	}
 }
 
-void Grid::updateSelectableUnits(Country* player_country) {
+void Grid::updateBaseSelectableUnits(Country* player_country) {
 	selectable_units.clear();
 	for (size_t i = 0; i < player_country->getUnits().length(); i++)
 	{
@@ -139,6 +143,9 @@ void Grid::updateSelectableUnits(Country* player_country) {
 		selectable_units.insertItemUniquely(units[player_country->getUnits()[i]->right()]);
 		selectable_units.insertItemUniquely(units[player_country->getUnits()[i]->left()]);
 	}
+}
+
+void Grid::updateOutsideSelectableUnits() {
 	for (size_t i = 0; i < selected_units.length(); i++)
 	{
 		selectable_units.insertItemUniquely(selected_units[i]);

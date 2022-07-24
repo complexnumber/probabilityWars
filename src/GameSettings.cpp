@@ -5,11 +5,10 @@ GameSettings::GameSettings() {
 	num_col = 13;
 	num_units = 13 * 13;
 
-	country_names = NULL;
-	country_colors = NULL;
-
 	max_num_countries = unsigned int((num_row + 2) / 5) * unsigned int((num_col + 2) / 5);
 	num_countries = max_num_countries;
+
+	setCountriesRandom();
 
 	border_scaling = 0.9;
 	square_length = (ofGetWindowHeight() / num_row) * 0.7;
@@ -63,11 +62,14 @@ void GameSettings::setCountryNames(char** set_country_names) {
 }
 
 void GameSettings::setCountryNamesRandom() {
-	string random_names[10] = { "Cakil", "Turkey", "Germany", "Josh", "Paul", "Italy", "USA", "Russia", "England", "France" };
+	string random_names[25] = { "Cakil", "Turkey", "Germany", "Poland",
+		"Spain", "Italy", "USA", "Russia", "England", "France", "Norway",
+		"Sweden", "Denmark", "Portugal", "China", "Japan", "Ireland", "Syria",
+		"Iraq", "India", "Brazil", "Canada", "Egypt", "Israel", "Mexico"};
 	country_names = new char*[num_countries];
 	for (size_t i = 0; i < num_countries; i++)
 	{
-		string random_name = random_names[unsigned int(ofRandom(num_countries))];
+		string random_name = random_names[unsigned int(ofRandom(25))];
 		country_names[i] = new char[random_name.length() + 1];
 		random_name.copy(country_names[i], random_name.length());
 		country_names[i][random_name.length()] = '\0';
@@ -184,8 +186,4 @@ ofTrueTypeFont GameSettings::getFont() {
 
 void GameSettings::setFont(string font_name, size_t set_font_size) {
 	font.load(font_name, set_font_size);
-}
-
-GameSettings::~GameSettings() {
-	;
 }

@@ -28,8 +28,6 @@ private:
 	GeneralBuffer<Unit*> selected_units;
 
 	void reducePossibleCountryCenterUnits(Unit* unit);
-
-
 public:
 	Grid();
 
@@ -43,8 +41,9 @@ public:
 
 	GeneralBuffer<Unit*>* getSelectedUnits();
 
-	void updateSelectedUnits(int x, int y);
-	void updateSelectableUnits(Country* player_country);
+	void updateSelectedUnits(int x, int y, Country* player_country);
+	void updateBaseSelectableUnits(Country* player_country);
+	void updateOutsideSelectableUnits();
 	void clearSelectedLands();
 };
 

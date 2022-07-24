@@ -36,7 +36,6 @@ public:
 	coinState getCoinState();
 
 	void tossCoin();
-	~Coin();
 };
 
 #endif /* Coin.hpp */

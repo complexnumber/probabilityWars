@@ -16,7 +16,8 @@ private:
 public:
 	World();
 	void setup(GameSettings* set_game_settings);
-	void update(Country* country);
+	void update();
+	void updateUnits(Country* player_country);
 	void draw();
 
 	void setupCountries();
@@ -26,7 +27,7 @@ public:
 	Grid* grid();
 	Country*& operator[](unsigned int index);
 
-	void mousePressed(int x, int y, int mouse_button);
+	void mousePressed(int x, int y, int mouse_button, Country* player_country);
 };
 
 #endif /* World.hpp */

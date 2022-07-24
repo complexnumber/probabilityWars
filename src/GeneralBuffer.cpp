@@ -16,7 +16,7 @@ GeneralBuffer<T>::GeneralBuffer(size_t length) {
 
 template <class T>
 void GeneralBuffer<T>::reset() {
-	delete[] arr;
+	if (arr != NULL) delete[] arr;
 	arr = NULL;
 	len = 0;
 	allocated_length = 0;
@@ -24,7 +24,7 @@ void GeneralBuffer<T>::reset() {
 
 template <class T>
 void GeneralBuffer<T>::reset(size_t length) {
-	delete[] arr;
+	if (arr != NULL) delete[] arr;
 	arr = new T[length]();
 	len = 0;
 	allocated_length = length;
@@ -73,11 +73,14 @@ void GeneralBuffer<T>::reduceUniquely(T item) {
 }
 
 template <class T>
-void GeneralBuffer<T>::reduceShiftList(unsigned int start_index) {
-	T temp = arr[start_index];
-	for (size_t i = start_index; i < len - 1; i++) arr[i] = arr[i + 1];
-	arr[len - 1] = temp;
-	len--;
+T GeneralBuffer<T>::reduceShiftList(unsigned int start_index) {
+	if (start_index < len) {
+		T temp = arr[start_index];
+		for (size_t i = start_index; i < len - 1; i++) arr[i] = arr[i + 1];
+		arr[len - 1] = temp;
+		len--;
+		return temp;
+	}
 }
 
 template <class T>
@@ -87,7 +90,7 @@ bool GeneralBuffer<T>::checkItem(T item) {
 }
 
 template <class T>
-T* GeneralBuffer<T>::getArray() {
+T* GeneralBuffer<T>::getBuffer() {
 	return arr;
 }
 

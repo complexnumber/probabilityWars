@@ -109,7 +109,3 @@ void Coin::tossCoin() {
 coinState Coin::getCoinState() {
 	return coin_state;
 }
-
-Coin::~Coin() {
-
-}

@@ -14,8 +14,7 @@ void World::setup(GameSettings* set_game_settings) {
 	setupCountries();
 }
 
-void World::update(Country* country) {
-	world_grid->updateSelectableUnits(country);
+void World::update() {
 }
 
 void World::draw() {
@@ -32,6 +31,10 @@ void World::setupCountries() {
 		countries[id]->setup(game_settings, id);
 		countries[id]->establish(world_grid, (*(world_grid->getInitialCountryCenterUnits()))[id]->getID());
 	}
+}
+
+void World::updateUnits(Country* player_country) {
+	world_grid->updateBaseSelectableUnits(player_country);
 }
 
 void World::resetWorld() {
@@ -56,11 +59,11 @@ Country*& World::operator[](unsigned int index) {
 	return countries[index];
 }
 
-void World::mousePressed(int x, int y, int mouse_button) {
+void World::mousePressed(int x, int y, int mouse_button, Country* player_country) {
 	switch (mouse_button)
 	{
 	case 0:
-		world_grid->updateSelectedUnits(x, y);
+		world_grid->updateSelectedUnits(x, y, player_country);
 		break;
 	default:
 		break;

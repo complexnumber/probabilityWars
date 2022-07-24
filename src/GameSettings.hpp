@@ -47,7 +47,6 @@ public:
 	void setCountry(char* set_country_name, ofColor set_country_color, size_t country_id);
 
 	char** getCountryNames();
-
 	ofColor* getCountryColors();
 
 	size_t getNumberColumn();
@@ -71,8 +70,6 @@ public:
 
 	ofTrueTypeFont getFont();
 	void setFont(string font_name, size_t set_font_size);
-
-	~GameSettings();
 };
 
 #endif /* GameSettings.hpp */
