@@ -3,7 +3,7 @@
 World::World() {
 	game_settings = NULL;
 	world_grid = NULL;
-	countries = NULL;
+	countries = GeneralBuffer<Country*>();
 }
 
 void World::setup(GameSettings* set_game_settings) {
@@ -17,6 +17,11 @@ void World::setup(GameSettings* set_game_settings) {
 void World::update() {
 }
 
+void World::updateUnits() {
+	world_grid->updateBaseSelectableUnits();
+	world_grid->updateBaseCountrySelectableUnits();
+}
+
 void World::draw() {
 	world_grid->draw();
 }
@@ -24,27 +29,35 @@ void World::draw() {
 void World::setupCountries() {
 	// Establish countries on lands
 	size_t num_countries = game_settings->getNumberCountries();
-	countries = new Country * [num_countries]();
+	countries = GeneralBuffer<Country*>(num_countries);
 	for (size_t id = 0; id < num_countries; id++)
 	{
-		countries[id] = new Country();
+		countries.insertItem(new Country());
 		countries[id]->setup(game_settings, id);
 		countries[id]->establish(world_grid, (*(world_grid->getInitialCountryCenterUnits()))[id]->getID());
 	}
 }
 
-void World::updateUnits(Country* player_country) {
-	world_grid->updateBaseSelectableUnits(player_country);
+bool World::checkCountryDestruction() {
+	for (size_t id = 0; id < countries.length(); id++)
+	{
+		if (!countries[id]->getUnits().length()) {
+			countries[id]->destroy();
+			delete countries[id];
+			countries.reduceShiftList(id);
+			return true;
+		}
+	}
+	return false;
 }
 
 void World::resetWorld() {
-	for (size_t i = 0; i < game_settings->getNumberCountries(); i++)
-	{
-		countries[i]->destroy();
-		delete countries[i];
-	}
-	delete[]countries;
 	world_grid->reset();
+	while (countries.length()) {
+		countries[countries.length() - 1]->destroy();
+		delete countries[countries.length() - 1];
+		countries.reduceShiftList(countries.length() - 1);
+	}
 }
 
 GameSettings* World::settings() {
@@ -55,17 +68,23 @@ Grid* World::grid() {
 	return world_grid;
 }
 
+size_t World::numberOfCountries() {
+	return countries.length();
+}
+
 Country*& World::operator[](unsigned int index) {
 	return countries[index];
 }
 
-void World::mousePressed(int x, int y, int mouse_button, Country* player_country) {
+bool World::mousePressed(int x, int y, int mouse_button) {
 	switch (mouse_button)
 	{
 	case 0:
-		world_grid->updateSelectedUnits(x, y, player_country);
+		if (world_grid->updateSelectedUnits(x, y)) return true;
+		return false;
 		break;
 	default:
+		return false;
 		break;
 	}
 }

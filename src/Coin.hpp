@@ -31,7 +31,7 @@ public:
 	void update();
 	void draw();
 
-	void mousePressed(int x, int y, int mouse_button);
+	bool mousePressed(int x, int y, int mouse_button);
 
 	coinState getCoinState();
 

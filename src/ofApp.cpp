@@ -7,13 +7,13 @@ void ofApp::setup(){
     ofSetFullscreen(false);
 
     game_settings = new GameSettings();
-    if (game_settings->setup(13, 13, 9)) {
+    if (game_settings->setup(3, 3, 1)) {
         game_state = gameState::START;
         game_settings->setBackground(ofColor(225, 193, 110));
         game_settings->setFont("Arial.ttf", 20);
         game_settings->setWorldGraphics(0.85);
         game_settings->setCoin(20, 2, 6);
-        game_settings->setTourTime(20);
+        game_settings->setTourTimeLimit(25);
         game_settings->setCountriesRandom();
 
         coin = new Coin();
@@ -58,7 +58,7 @@ void ofApp::draw(){
             break;
         }
         case gameState::GAME: {
-            game->draw();
+            game->draw(game_settings);
             break;
         }
         case gameState::END: {
@@ -87,6 +87,7 @@ void ofApp::keyPressed(int key){
                     world->setup(game_settings);
                     game->setup(game_settings, world, coin);
                     game_state = gameState::GAME;
+                    game->resetTourTimer();
                     break;
                 }
                 case gameState::GAME: {

@@ -29,8 +29,8 @@ class ofApp : public ofBaseApp{
 		enum class gameState { START, GAME, END };
 		gameState game_state;
 
-		GameFlow* game;
 		GameSettings* game_settings;
+		GameFlow* game;
 		World* world;
 		Coin* coin;
 

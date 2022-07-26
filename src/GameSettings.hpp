@@ -21,7 +21,7 @@ private:
 	float coin_rotation_time;
 	uint8_t coin_num_turns;
 
-	float tour_time;
+	float tour_time_limit;
 
 	size_t font_size;
 	ofTrueTypeFont font;
@@ -63,8 +63,8 @@ public:
 	float getCoinRotationTime();
 	uint8_t getCoinNumberTurns();
 
-	void setTourTime(float set_tour_time);
-	float getTourTime();
+	void setTourTimeLimit(float set_tour_time_limit);
+	float getTourTimeLimit();
 
 	void setBackground(ofColor color);
 

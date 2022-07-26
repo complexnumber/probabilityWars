@@ -1,4 +1,6 @@
 #include "GameSettings.hpp"
+#include "GeneralBuffer.hpp"
+#include "GeneralBuffer.cpp"
 
 GameSettings::GameSettings() {
 	num_row = 13;
@@ -17,7 +19,7 @@ GameSettings::GameSettings() {
 	coin_rotation_time = 2;
 	coin_num_turns = 6;
 
-	tour_time = 20;
+	tour_time_limit = 20;
 
 	font_size = 16;
 	font.load("arial.ttf", font_size);
@@ -62,14 +64,19 @@ void GameSettings::setCountryNames(char** set_country_names) {
 }
 
 void GameSettings::setCountryNamesRandom() {
-	string random_names[25] = { "Cakil", "Turkey", "Germany", "Poland",
+	GeneralBuffer<string> random_names(25);
+	string names[25] = { "Cakil", "Turkey", "Germany", "Poland",
 		"Spain", "Italy", "USA", "Russia", "England", "France", "Norway",
 		"Sweden", "Denmark", "Portugal", "China", "Japan", "Ireland", "Syria",
 		"Iraq", "India", "Brazil", "Canada", "Egypt", "Israel", "Mexico"};
+	for (size_t i = 0; i < 25; i++)
+	{
+		random_names.insertItem(names[i]);
+	}
 	country_names = new char*[num_countries];
 	for (size_t i = 0; i < num_countries; i++)
 	{
-		string random_name = random_names[unsigned int(ofRandom(25))];
+		string random_name = random_names.reduceShiftList(unsigned int(ofRandom(random_names.length() )));
 		country_names[i] = new char[random_name.length() + 1];
 		random_name.copy(country_names[i], random_name.length());
 		country_names[i][random_name.length()] = '\0';
@@ -168,12 +175,12 @@ uint8_t GameSettings::getCoinNumberTurns() {
 	return coin_num_turns;
 }
 
-void GameSettings::setTourTime(float set_tour_time) {
-	tour_time = set_tour_time;
+void GameSettings::setTourTimeLimit(float set_tour_time_limit) {
+	tour_time_limit = set_tour_time_limit;
 }
 
-float GameSettings::getTourTime() {
-	return tour_time;
+float GameSettings::getTourTimeLimit() {
+	return tour_time_limit;
 }
 
 void GameSettings::setBackground(ofColor color) {

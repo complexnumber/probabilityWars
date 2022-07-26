@@ -5,6 +5,7 @@
 
 #include "ofMain.h"
 #include "GameSettings.hpp"
+#include "GeneralBuffer.hpp"
 #include "Country.hpp"
 #include "Grid.hpp"
 
@@ -12,22 +13,24 @@ class World {
 private:
 	GameSettings* game_settings;
 	Grid* world_grid;
-	Country** countries;
+	GeneralBuffer<Country*> countries;
 public:
 	World();
 	void setup(GameSettings* set_game_settings);
 	void update();
-	void updateUnits(Country* player_country);
+	void updateUnits();
 	void draw();
+	void resetWorld();
 
 	void setupCountries();
-	void resetWorld();
+	bool checkCountryDestruction();
 
 	GameSettings* settings();
 	Grid* grid();
+	size_t numberOfCountries();
 	Country*& operator[](unsigned int index);
 
-	void mousePressed(int x, int y, int mouse_button, Country* player_country);
+	bool mousePressed(int x, int y, int mouse_button);
 };
 
 #endif /* World.hpp */

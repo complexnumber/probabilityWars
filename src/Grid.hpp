@@ -26,8 +26,14 @@ private:
 
 	GeneralBuffer<Unit*> selectable_units;
 	GeneralBuffer<Unit*> selected_units;
+	GeneralBuffer<Unit*> selectable_country_units;
+	GeneralBuffer<Unit*> selected_country_units;
+
+	Country* player_country;
 
 	void reducePossibleCountryCenterUnits(Unit* unit);
+	GeneralBuffer<Unit*> selectableButNotSelectedUnits();
+	GeneralBuffer<Unit*> selectableButNotSelectedCountryUnits();
 public:
 	Grid();
 
@@ -40,11 +46,21 @@ public:
 	GeneralBuffer<Unit*>* getInitialCountryCenterUnits();
 
 	GeneralBuffer<Unit*>* getSelectedUnits();
+	GeneralBuffer<Unit*>* getSelectedCountryUnits();
 
-	void updateSelectedUnits(int x, int y, Country* player_country);
-	void updateBaseSelectableUnits(Country* player_country);
-	void updateOutsideSelectableUnits();
+	bool updateSelectedUnits(int x, int y);
+	void updateBaseSelectableUnits();
+	void updateSelectableUnits();
+	void updateBaseCountrySelectableUnits();
+	void updateCountrySelectableUnits();
+
+	void randomlySelectUnits();
+	void randomlySelectCountryUnits();
+
 	void clearSelectedLands();
+	void clearSelectedCountryLands();
+
+	void setPlayer(Country* set_player_country);
 };
 
 #endif /* Grid.hpp */

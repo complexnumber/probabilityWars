@@ -81,6 +81,9 @@ T GeneralBuffer<T>::reduceShiftList(unsigned int start_index) {
 		len--;
 		return temp;
 	}
+	else {
+		return arr[len - 1];
+	}
 }
 
 template <class T>

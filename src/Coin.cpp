@@ -86,17 +86,19 @@ void Coin::draw() {
 	ofPopMatrix();
 }
 
-void Coin::mousePressed(int x, int y, int mouse_button) {
+bool Coin::mousePressed(int x, int y, int mouse_button) {
 	switch (mouse_button)
 	{
 	case 0:
 		if (x > coin_position.x - coin_radius && x < coin_position.x + coin_radius
-			&& y > coin_position.y - coin_radius && y < coin_position.y + coin_radius
-			&& coin_state != coinState::ROTATING) {
-			tossCoin();
+			&& y > coin_position.y - coin_radius && y < coin_position.y + coin_radius) {
+			if (coin_state != coinState::ROTATING) tossCoin();
+			return true;
 		}
+		return false;
 		break;
 	default:
+		return false;
 		break;
 	}
 }
